@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,
     initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
     <title>{% block title %} Мой сайт {% endblock %}
     </title>
 </head>
@@ -15,15 +15,25 @@
                 <a href="/main/" class="nav-link">главная</a>
             </li>
             <li class="nav-item">
-                <a href="/about/" class="nav-link">О нас</a>
+                <a href="/clothes/" class="nav-link">Одежда</a>
+            </li>
+            <li class="nav-item">
+                <a href="/shoes/" class="nav-link">Обувь</a>
+            </li>
+            <li class="nav-item">
+                <a href="/jacket/" class="nav-link">Куртка</a>
             </li>
         </ul>
+    </div>
+    <div>
         {% block content %}
-            Страница не заполнена
+        Страница не заполнена
         {% endblock %}
+    </div>
+
     <div class="row fixed-bottom modal-footer">
-        19
-    <hr>
+        <p>подвал</p>
+        <p>Созданно Писарев Николай Владимирович</p>
     <p>Все права защищены &copy;</p>
     </div>
     </div>

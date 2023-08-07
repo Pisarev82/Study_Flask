@@ -10,17 +10,17 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
+@app.route('/')
 @app.route('/main/')
 def main():
-    return render_template("news.html", )
+    context = {'title': 'Главная'}
+    return render_template("main.html", **context)
 
 @app.route('/about/')
 def news():
-    return render_template("news.html", )
+    context = {'title': 'База статей'}
+    return render_template("clothes.html", )
 
-@app.route('/')
-def news():
-    return render_template("news.html", )
 
 
 if __name__ == '__main__':

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ super() }} - {{ title }}
+{% endblock %}
+{% block content %}
+<h1>Одежда</h1>
+<div class="row">
+<div class="col-12 col-md-6 col-lg-4">
+    <img src="/static/image/clothes1.jpg" class="col-12 col-md-6
+img-fluid rounded-circle" alt="одежда">
+<p>Одежда</p>
+</div>
+<div class="col-12 col-md-6 col-lg-4">
+    <img src="/static/image/clothes2.jpg" class="col-12 col-md-6
+img-fluid rounded-circle" alt="одежда">
+<p>Одежда</p>
+</div>
+    <div class="col-12 col-md-6 col-lg-4">
+    <img src="/static/image/clothes3.jpg" class="col-12 col-md-6
+img-fluid rounded-circle" alt="одежда">
+<p>Одежда</p>
+</div>
+</div>
+{% endblock %}
