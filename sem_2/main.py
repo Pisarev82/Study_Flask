@@ -3,7 +3,7 @@
 # приветствием пользователя по имени.
 from pathlib import PurePath, Path
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
 from markupsafe import escape
 from werkzeug.utils import secure_filename
 
@@ -80,20 +80,44 @@ def task_5():
     if request.method == 'POST':
         num_1 = request.form.get('num_1')
         num_2 = request.form.get('num_2')
-        if request.form.get('+'):
-            math_oper = "+"
+        operation = request.form.get('operation')
+        if operation == "+":
             res = str(float(num_1) + float(num_2))
-        if request.form.get('-'):
+        if operation == "-":
             res = str(float(num_1) - float(num_2))
-            math_oper = "-"
-            return math_oper
-        else:
-            res = "fack"
-            math_oper = "fack"
-            return str(f'{escape(num_1)} {math_oper} {num_1} = {res}')
-        return math_oper
+        if operation == "*":
+            res = str(float(num_1) * float(num_2))
+        if operation == "/":
+            res = str(float(num_1) / float(num_2))
+
+        return str(f'{escape(num_1)} {operation} {escape(num_2)} = {res}')
     return render_template("task_5.html")
 
+
+@app.route('/task_6/', methods=['GET', 'POST'])
+def task_6():
+    # Создать страницу, на которой будет форма для ввода имени
+    # и возраста пользователя и кнопка "Отправить"
+    # При нажатии на кнопку будет произведена проверка
+    # возраста и переход на страницу с результатом или на
+    # страницу с ошибкой в случае некорректного возраста
+    if request.method == 'POST':
+        name = request.form.get("name")
+        age = int(request.form.get("age"))
+        if 0 < age < 120:
+            return f"{escape(name)} {age}"
+        abort(403, age)
+    return render_template("task_6.html")
+
+
+@app.errorhandler(403)
+def page_not_found(e, *args):
+
+    context = {
+    'title': 'ошибка 403',
+    'age': args
+    }
+    return render_template('403.html', **context), 403
 
 
 if __name__ == '__main__':
