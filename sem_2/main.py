@@ -3,9 +3,9 @@
 # приветствием пользователя по имени.
 from pathlib import PurePath, Path
 
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, request, abort, url_for
 from markupsafe import escape
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename, redirect
 
 app = Flask(__name__)
 
@@ -112,12 +112,44 @@ def task_6():
 
 @app.errorhandler(403)
 def page_not_found(e, *args):
-
     context = {
     'title': 'ошибка 403',
     'age': args
     }
     return render_template('403.html', **context), 403
+
+
+@app.route('/task_7/', methods=['GET', 'POST'])
+def task_7():
+    # Создать страницу, на которой будет форма для ввода числа
+    # и кнопка "Отправить"
+    # При нажатии на кнопку будет произведено
+    # перенаправление на страницу с результатом, где будет
+    # выведено введенное число и его квадрат
+    if request.method == 'POST':
+        num = int(request.form.get("num"))
+        return redirect(url_for('num', number=num))
+    return render_template("task_7.html")
+
+
+@app.route('/num/<number>')
+def num(number):
+    num = int(number)
+    return str(num * num)
+
+
+
+@app.route('/task_8/', methods=['GET', 'POST'])
+def task_8():
+    # Создать страницу, на которой будет форма для ввода имени
+    # и кнопка "Отправить"
+    # При нажатии на кнопку будет произведено
+    # перенаправление на страницу с flash сообщением, где будет
+    # выведено "Привет, {имя}!".
+    if request.method == 'POST':
+        name = request.form.get("name")
+        return redirect(url_for('name', name=name))
+    return render_template("task_8.html")
 
 
 if __name__ == '__main__':
