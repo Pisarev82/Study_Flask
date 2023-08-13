@@ -3,11 +3,13 @@
 # приветствием пользователя по имени.
 from pathlib import PurePath, Path
 
-from flask import Flask, render_template, request, abort, url_for
+from flask import Flask, render_template, request, abort, url_for, flash
 from markupsafe import escape
 from werkzeug.utils import secure_filename, redirect
 
 app = Flask(__name__)
+app.secret_key =b'5f214cacbd30c2ae4784b520f17912ae0d5d8c16ae98128e3f549546221265e4'
+
 
 users = {"Kolya": "123",
          "admin": "1234"}
@@ -138,7 +140,6 @@ def num(number):
     return str(num * num)
 
 
-
 @app.route('/task_8/', methods=['GET', 'POST'])
 def task_8():
     # Создать страницу, на которой будет форма для ввода имени
@@ -147,9 +148,15 @@ def task_8():
     # перенаправление на страницу с flash сообщением, где будет
     # выведено "Привет, {имя}!".
     if request.method == 'POST':
-        name = request.form.get("name")
-        return redirect(url_for('name', name=name))
+        name = request.form.get("name", )
+        flash(name)
+        return redirect(url_for('name'))
     return render_template("task_8.html")
+
+
+@app.route('/name/')
+def name():
+    return render_template("name.html")
 
 
 if __name__ == '__main__':
