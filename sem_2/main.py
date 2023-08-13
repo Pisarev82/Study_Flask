@@ -3,7 +3,7 @@
 # приветствием пользователя по имени.
 from pathlib import PurePath, Path
 
-from flask import Flask, render_template, request, abort, url_for, flash
+from flask import Flask, render_template, request, abort, url_for, flash, make_response
 from markupsafe import escape
 from werkzeug.utils import secure_filename, redirect
 
@@ -157,6 +157,40 @@ def task_8():
 @app.route('/name/')
 def name():
     return render_template("name.html")
+
+
+@app.route('/task_9/', methods=['GET', 'POST'])
+def task_9():
+    # Создать страницу, на которой будет форма для ввода имени
+    # и электронной почты
+    # При отправке которой будет создан cookie файл с данными
+    # пользователя
+    # Также будет произведено перенаправление на страницу
+    # приветствия, где будет отображаться имя пользователя.
+    # На странице приветствия должна быть кнопка "Выйти"
+    # При нажатии на кнопку будет удален cookie файл с данными
+    # пользователя и произведено перенаправление на страницу
+    # ввода имени и электронной почты.
+    if request.method == 'POST':
+        name = request.form.get("name")
+        email = request.form.get("email")
+        response = redirect(url_for('task_9_1'))
+        response.set_cookie("name", name)
+        response.set_cookie("email", email)
+        return response
+    return render_template("task_9.html")
+
+
+@app.route('/task_9_1/', methods=['GET', 'POST'])
+def task_9_1():
+    name = request.cookies.get('name')
+    if request.method == 'GET':
+        return render_template("task_9_1.html", name=name)
+    if request.method == 'POST':
+        response = redirect(url_for('task_9'))
+        response.delete_cookie('name')
+        response.delete_cookie('email')
+        return response
 
 
 if __name__ == '__main__':
