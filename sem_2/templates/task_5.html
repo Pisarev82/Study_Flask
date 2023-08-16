@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="{{url_for('task_5')}}" method="post">
+        <input type="number" value="" name="num_1">
+        <input type="number" value="" name="num_2">
+        <!--        Вариант 1 для кнопок -->
+        <input type="submit" value="+" name="operation">
+        <input type="submit" value="-" name="operation">
+        <input type="submit" value="*" name="operation">
+        <input type="submit" value="/" name="operation">
+        <!--        Вариант 2 для кнопок -->
+        <label>
+            <input type="radio" name="operation" value="+" required> Сложение
+        </label>
+
+        <label>
+            <input type="radio" name="operation" value="-" required> Вычитание
+        </label>
+
+        <label>
+            <input type="radio" name="operation" value="*" required> Умножение
+        </label>
+
+        <label>
+            <input type="radio" name="operation" value="/" required> Деление
+        </label>
+        <input type="submit" value="=" >
+
+    </form>
+</body>
+</html>
