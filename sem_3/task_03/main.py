@@ -14,7 +14,8 @@ from random import choice
 from string import ascii_lowercase
 
 from flask import Flask, render_template
-from task_03.models import db, Student, Faculty, GenderEnum
+from task_03.models import db, Student, Grade
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students_task_03.db'
@@ -28,21 +29,23 @@ def init_db():
 
 @app.cli.command("add_student")
 def add_student():
-    for i in range(1, 6):
-        faculty = Faculty(name=f"VIP-{i}")
-        db.session.add(faculty)
-
-    db.session.commit()
-
-    for _ in range(1, 21):
-        student = Student(first_name=''.join(choice(ascii_lowercase) for _ in range(5)),
-                          last_name=''.join(choice(ascii_lowercase) for _ in range(5)),
-                          age=choice(range(18, 25)),
-
-                          group=''.join(choice(ascii_lowercase) for _ in range(3)),
-                          faculty_id=int(choice(range(1, 6))))
-        print(student)
+    for _ in range(20):
+        student = Student(
+            first_name=''.join(choice(ascii_lowercase) for _ in range(5)),
+            last_name=''.join(choice(ascii_lowercase) for _ in range(5)),
+            group=''.join(choice(ascii_lowercase) for _ in range(5)),
+            email=''.join(choice(ascii_lowercase) for _ in range(5)) + "@mail.examp"
+        )
         db.session.add(student)
+
+        for _ in range(5):
+            grade = Grade(
+                grade_value=choice(range(2, 6)),
+                lesson_title=''.join(choice(ascii_lowercase) for _ in range(5)),
+                student=student
+            )
+            db.session.add(grade)
+
     db.session.commit()
 
 
