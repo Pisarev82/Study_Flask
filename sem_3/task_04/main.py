@@ -11,13 +11,17 @@
 Дополнительно: добавьте проверку на уникальность имени пользователя и электронной почты в
 базе данных. Если такой пользователь уже зарегистрирован, то должно выводиться сообщение
 об ошибке
+
+Задание №8
+При отправке формы данные должны сохраняться в базе
+данных, а пароль должен быть зашифрован.
 """
 
 from flask import Flask, render_template, request
 from flask_wtf.csrf import CSRFProtect
 from task_04.models import db, User
-
 from task_04.forms import RegisterForm, LoginForm
+import bcrypt
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students_task_04.db'
@@ -43,12 +47,14 @@ def register():
         name = form.name.data
         email = form.email.data
         password = form.password.data
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         ex_user = User.query.filter((User.name == name) | (User.email == email)).first()
         if ex_user:
             error_msg = 'Username or email already exists.'
-            form.username.errors.append(error_msg)
+            form.name.errors.append(error_msg)
+            form.email.errors.append(error_msg)
             return render_template('register.html', form=form)
-        user = User(name=name, email=email, password=password)
+        user = User(name=name, email=email, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         return "register success"
