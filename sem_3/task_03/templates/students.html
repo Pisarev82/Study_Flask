@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>students</title>
+</head>
+<body>
+    <h1>Task 3</h1>
+    {% for item in all_students %}
+    <div class="col-12 col-md-6 displey-2">
+        <h2>{{ item.id }}</h2>
+        <p>{{ item }}</p>
+        <p>{{ item.first_name }}
+        {{ item.last_name }}
+        {{ item.grade }}
+
+        </p>
+    </div>
+    {% endfor %}
+</body>
+</html>
