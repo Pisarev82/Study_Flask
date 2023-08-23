@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Hello, {{ name|title }}!</h1>
+    <form action="{{url_for('create_user')}}" method="post">
+        <input type="text" name="name" placeholder="Введите имя" >
+        <input type="text" name="email" placeholder="Введите email" >
+        <input type="password" name="password" placeholder="Введите пароль" >
+        <input type="submit" value="enter">
+    </form>
+    {% for item in users %}
+        <div >
+            <p>{{ item.id }}</p>
+            <p>{{ item.name }}</p>
+            <p>{{ item.email }}</p>
+            <p>{{ item.password }}</p>
+        </div>
+        {% endfor %}
+
+</body>
+</html>
