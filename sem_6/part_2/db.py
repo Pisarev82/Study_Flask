@@ -7,38 +7,34 @@ from sqlalchemy.orm import sessionmaker
 DATABASE_URL = "sqlite:///my_hw_database.db"
 database = databases.Database(DATABASE_URL)
 
-Base = declarative_base()
+# Base = declarative_base()
 
+db = databases.Database(DATABASE_URL)
+mdt = sqlalchemy.MetaData()
+users_db = sqlalchemy.Table( "users", mdt,
+                        sqlalchemy.Column("id", sqlalchemy.Integer,primary_key=True),
+                        sqlalchemy.Column("login", sqlalchemy.String(32)),
+                        sqlalchemy.Column("password", sqlalchemy.String(64)),
+                        sqlalchemy.Column("email", sqlalchemy.String(128)),
+                        )
 
-class User(Base):
-    __tablename__ = 'users'
+product_db = sqlalchemy.Table( "products", mdt,
+                        sqlalchemy.Column("id", sqlalchemy.Integer,primary_key=True),
+                        sqlalchemy.Column("name", sqlalchemy.String(32)),
+                        sqlalchemy.Column("description", sqlalchemy.String(1000)),
+                        sqlalchemy.Column("price", sqlalchemy.Float()),
+                        )
 
-    id = Column(Integer, primary_key=True)
-    login = Column(String)
-    password = Column(String)
-    email = Column(String)
+order_db = sqlalchemy.Table( "orders", mdt,
+                        sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+                        sqlalchemy.Column("user_id", sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'),
+                                          nullable=False),
+                        sqlalchemy.Column("product_id", sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'),
+                                          nullable=False),
+                        sqlalchemy.Column("order_status", sqlalchemy.Boolean),
+                        sqlalchemy.Column("order_date", sqlalchemy.DateTime),
+                        )
 
-
-class Product(Base):
-    __tablename__ = 'products'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    description = Column(String)
-    price = Column(Float)
-
-
-class Order(Base):
-    __tablename__ = 'orders'
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    product_id = Column(Integer, ForeignKey('products.id'))
-    order_status = Column(Boolean)
-    order_date = Column(DateTime)
-
-
-engine = sqlalchemy.create_engine(DATABASE_URL)
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
+engine = sqlalchemy.create_engine(DATABASE_URL,
+    connect_args={"check_same_thread": False})
+mdt.create_all(engine)

@@ -23,7 +23,6 @@ class Product(InputProduct):
 
 
 class InputOrder(BaseModel):
-    id: int
     user_id: int
     product_id: int
     order_status: bool = Field(True, title="Order status", gt=0)

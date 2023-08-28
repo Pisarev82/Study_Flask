@@ -28,7 +28,7 @@ async def create_user(user: InputUser):
         password=user.password,
         email=user.email)
     last_record_id = await db.execute(query)
-    return {**user.dict(), "id": last_record_id}
+    return {**user, "id": last_record_id}
 
 
 # Список пользователей

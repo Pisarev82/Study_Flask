@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from db import *
-import router_user
+import router_user, router_product, router_order
+
 
 app = FastAPI()
 
@@ -15,6 +16,8 @@ async def shutdown():
     await database.disconnect()
 
 app.include_router(router_user.router, tags=['users'])
+app.include_router(router_product.router, tags=['products'])
+app.include_router(router_order.router, tags=['orders'])
 
 @app.get("/")
 async def read_root():

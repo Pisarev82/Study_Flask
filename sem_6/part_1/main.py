@@ -19,6 +19,7 @@ async def shutdown():
 
 app.include_router(users_1.router, tags=['users'])
 app.include_router(r_posts.router, tags=['posts'])
+app.include_router(r_posts.router, tags=['orders'])
 
 if __name__ == '__main__':
     uvicorn.run(
